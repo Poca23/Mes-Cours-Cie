@@ -69,6 +69,7 @@
 }
 
 .export-option span {
+  -webkit-user-select: none;
   user-select: none;
 }
 
