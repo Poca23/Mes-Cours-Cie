@@ -81,6 +81,48 @@ const CourseDetail = () => {
     }));
   };
 
+  // Fonction pour convertir le Markdown en HTML
+  const convertMarkdownToHtml = (text) => {
+    return text
+      // **texte** → <strong>texte</strong>
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      // *texte* → <em>texte</em>
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      // __texte__ → <strong>texte</strong>
+      .replace(/__(.*?)__/g, '<strong>$1</strong>')
+      // _texte_ → <em>texte</em>
+      .replace(/_(.*?)_/g, '<em>$1</em>')
+      // `code` → <code>code</code>
+      .replace(/`(.*?)`/g, '<code>$1</code>')
+      // # Titre → <h1>Titre</h1>
+      .replace(/^# (.*?)$/gm, '<h1>$1</h1>')
+      // ## Titre → <h2>Titre</h2>
+      .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
+      // ### Titre → <h3>Titre</h3>
+      .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
+      // - item → <li>item</li> (liste)
+      .replace(/^- (.*?)$/gm, '<li>$1</li>')
+      // Remplacer les retours à la ligne par des <br>
+      .replace(/\n/g, '<br>');
+  };
+
+  // Gérer le collage avec conversion Markdown
+  const handlePaste = (e) => {
+    e.preventDefault();
+    
+    // Récupérer le texte collé
+    const clipboardData = e.clipboardData || window.clipboardData;
+    const pastedText = clipboardData.getData('text/plain');
+    
+    // Convertir le Markdown en HTML
+    const htmlContent = convertMarkdownToHtml(pastedText);
+    
+    // Insérer le contenu HTML dans l'éditeur
+    if (descriptionRef.current) {
+      document.execCommand('insertHTML', false, htmlContent);
+    }
+  };
+
   // Gérer la saisie dans l'éditeur de texte riche
   const handleDescriptionInput = () => {
     if (descriptionRef.current) {
@@ -159,6 +201,14 @@ const CourseDetail = () => {
               <div className="form-group">
                 <label>Description *</label>
                 
+                {/* Info Markdown */}
+                <div className="markdown-info">
+                  <span className="info-icon">💡</span>
+                  <span className="info-text">
+                    Vous pouvez coller du texte Markdown : **gras**, *italique*, `code`, # titre
+                  </span>
+                </div>
+                
                 {/* Barre d'outils de formatage */}
                 <div className="formatting-toolbar">
                   <button
@@ -187,6 +237,14 @@ const CourseDetail = () => {
                   </button>
                   <button
                     type="button"
+                    onClick={() => formatText('formatBlock', 'h3')}
+                    className="format-btn"
+                    title="Titre"
+                  >
+                    H3
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => formatText('insertUnorderedList')}
                     className="format-btn"
                     title="Liste à puces"
@@ -209,8 +267,9 @@ const CourseDetail = () => {
                   contentEditable
                   className="rich-text-editor"
                   onInput={handleDescriptionInput}
+                  onPaste={handlePaste}
                   suppressContentEditableWarning={true}
-                  placeholder="Description du cours (vous pouvez coller du texte formaté)"
+                  placeholder="Description du cours (vous pouvez coller du texte Markdown)"
                 />
               </div>
 

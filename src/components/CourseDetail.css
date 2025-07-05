@@ -127,6 +127,38 @@
   text-decoration: underline;
 }
 
+.course-detail .course-description code {
+  background: #f3f4f6;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: #dc2626;
+}
+
+.course-detail .course-description h1,
+.course-detail .course-description h2,
+.course-detail .course-description h3 {
+  color: #1f2937;
+  margin: 1rem 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.course-detail .course-description h1 {
+  font-size: 1.5rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.course-detail .course-description h2 {
+  font-size: 1.3rem;
+}
+
+.course-detail .course-description h3 {
+  font-size: 1.1rem;
+  color: #3b82f6;
+}
+
 .course-detail .course-description ul,
 .course-detail .course-description ol {
   margin: 1rem 0;
@@ -139,6 +171,32 @@
 
 .course-detail .course-description p {
   margin: 0.5rem 0;
+}
+
+.course-detail .course-description br {
+  line-height: 1.5;
+}
+
+/* Info Markdown */
+.markdown-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #e0f2fe;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  border: 1px solid #b3e5fc;
+}
+
+.info-icon {
+  font-size: 1.1rem;
+}
+
+.info-text {
+  font-size: 0.875rem;
+  color: #0277bd;
+  font-weight: 500;
 }
 
 /* Barre d'outils de formatage */
@@ -216,6 +274,38 @@
 
 .rich-text-editor u {
   text-decoration: underline;
+}
+
+.rich-text-editor code {
+  background: #f3f4f6;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: #dc2626;
+}
+
+.rich-text-editor h1,
+.rich-text-editor h2,
+.rich-text-editor h3 {
+  color: #1f2937;
+  margin: 1rem 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.rich-text-editor h1 {
+  font-size: 1.5rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.rich-text-editor h2 {
+  font-size: 1.3rem;
+}
+
+.rich-text-editor h3 {
+  font-size: 1.1rem;
+  color: #3b82f6;
 }
 
 .rich-text-editor ul,
@@ -425,6 +515,15 @@
     min-height: 250px;
     font-size: 0.9rem;
   }
+  
+  .markdown-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .info-text {
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -451,5 +550,9 @@
   .course-detail .course-description {
     font-size: 0.85rem;
     padding: 0.75rem;
+  }
+  
+  .markdown-info {
+    padding: 0.5rem;
   }
 }
