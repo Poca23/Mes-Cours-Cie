@@ -49,13 +49,11 @@ const CourseDetail = () => {
     }
   };
 
-  // Fonction de mise à jour de la progression
   const handleProgressUpdate = (updatedCourse) => {
     setCourse(updatedCourse);
     setEditForm(updatedCourse);
   };
 
-  // Dummy PDF export handler (replace with real implementation if needed)
   const handleExportPDF = () => {
     generateSingleCoursePDF(course);
   };
@@ -134,7 +132,8 @@ const CourseDetail = () => {
                   value={editForm.description || ''}
                   onChange={handleInputChange}
                   placeholder="Description du cours"
-                  rows="8"
+                  rows="20"
+                  className="description-textarea"
                 />
               </div>
 
@@ -198,7 +197,7 @@ const CourseDetail = () => {
                   ✏️ Éditer
                 </button>
                 <button onClick={handleExportPDF} className="btn-export">
-                   📄 Exporter en PDF
+                  📄 Exporter en PDF
                 </button>
                 <button 
                   onClick={handleDelete}

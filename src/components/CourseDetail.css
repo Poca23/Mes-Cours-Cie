@@ -37,9 +37,10 @@
 }
 
 .course-detail-main {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 2rem auto;
   padding: 0 1rem;
+  box-sizing: border-box;
 }
 
 .course-detail-content {
@@ -47,6 +48,8 @@
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   padding: 2rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .course-header h2 {
@@ -66,6 +69,7 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 
 .course-date,
@@ -77,30 +81,52 @@
   color: #6b7280;
 }
 
+.course-content {
+  margin-bottom: 2rem;
+}
+
 .course-content h3 {
   color: #1f2937;
   margin-bottom: 1rem;
   font-size: 1.2rem;
 }
 
-.course-description {
+/* 🎯 CORRECTION : Styles spécifiques à la page de détail uniquement */
+.course-detail .course-description {
   background: #f9fafb;
   padding: 1.5rem;
   border-radius: 8px;
   border-left: 4px solid #3b82f6;
-  line-height: 1.6;
+  line-height: 1.7;
   white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   margin-bottom: 2rem;
+  height: auto;
+  min-height: 3rem;
+  max-height: none;
+  overflow-x: auto;
+  overflow-y: visible;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .course-actions {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  clear: both;
 }
 
 .btn-edit,
-.btn-delete {
+.btn-delete,
+.btn-export {
+  width: 100%;
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 8px;
@@ -120,6 +146,16 @@
   transform: translateY(-1px);
 }
 
+.btn-export {
+  background: #10b981;
+  color: white;
+}
+
+.btn-export:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
 .btn-delete {
   background: #ef4444;
   color: white;
@@ -130,9 +166,8 @@
   transform: translateY(-1px);
 }
 
-/* Formulaire d'édition */
 .edit-form {
-  max-width: 600px;
+  max-width: 800px;
 }
 
 .form-group {
@@ -155,6 +190,7 @@
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.3s;
+  box-sizing: border-box;
 }
 
 .form-group input:focus,
@@ -162,6 +198,14 @@
 .form-group textarea:focus {
   outline: none;
   border-color: #3b82f6;
+}
+
+.description-textarea {
+  resize: vertical;
+  min-height: 300px;
+  max-height: 800px;
+  font-family: 'Courier New', monospace;
+  line-height: 1.6;
 }
 
 .form-checkbox {
@@ -218,7 +262,11 @@
   color: #6b7280;
 }
 
-/* Responsive */
+.progress-tracker {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 @media (max-width: 768px) {
   .breadcrumb {
     flex-direction: column;
@@ -237,5 +285,41 @@
   
   .form-actions {
     flex-direction: column;
+  }
+  
+  .course-detail-main {
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
+  
+  .course-detail .course-description {
+    font-size: 0.9rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-detail-content {
+    padding: 1rem;
+  }
+  
+  .course-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .btn-edit,
+  .btn-delete,
+  .btn-export {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .description-textarea {
+    min-height: 250px;
+  }
+  
+  .course-detail .course-description {
+    font-size: 0.85rem;
+    padding: 0.75rem;
   }
 }
