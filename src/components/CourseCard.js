@@ -44,11 +44,6 @@ const CourseCard = ({ course, onDelete, onToggleFavorite }) => {
         </div>
       </div>
       
-      {/* Corps avec description */}
-      <div className="course-body">
-        <p className="course-description">{course.description}</p>
-      </div>
-      
       {/* Footer avec date et action */}
       <div className="course-footer">
         <small className="course-date">
