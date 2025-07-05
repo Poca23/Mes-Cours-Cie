@@ -124,10 +124,20 @@
 }
 
 .btn-edit,
-.btn-delete,
 .btn-export {
   width: 100%;
   padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-delete{
+  width: 100%;
+  padding: 1rem 1.5rem;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
