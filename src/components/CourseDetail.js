@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getAllCourses, updateCourse, deleteCourse } from '../utils/storage';
-import { generateSingleCoursePDF } from '../utils/pdfExport';import './CourseDetail.css';
-
+import { generateSingleCoursePDF } from '../utils/pdfExport';
+import './CourseDetail.css';
+import ProgressTracker from './ProgressTracker';
 
 const CourseDetail = () => {
   const { id } = useParams();
@@ -46,6 +47,12 @@ const CourseDetail = () => {
         navigate('/');
       }
     }
+  };
+
+  // Fonction de mise à jour de la progression
+  const handleProgressUpdate = (updatedCourse) => {
+    setCourse(updatedCourse);
+    setEditForm(updatedCourse);
   };
 
   // Dummy PDF export handler (replace with real implementation if needed)
@@ -177,6 +184,11 @@ const CourseDetail = () => {
                   {course.description}
                 </div>
               </div>
+
+              <ProgressTracker 
+                course={course} 
+                onUpdate={handleProgressUpdate} 
+              />
 
               <div className="course-actions">
                 <button 

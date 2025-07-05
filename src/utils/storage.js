@@ -65,3 +65,27 @@ export const searchCourses = (query) => {
     course.subject.toLowerCase().includes(searchTerm)
   );
 };
+
+// Mettre à jour la progression d'un cours
+export const updateCourseProgress = (courseId, progressData) => {
+  const courses = getAllCourses();
+  const courseIndex = courses.findIndex(course => course.id === courseId);
+  
+  if (courseIndex !== -1) {
+    courses[courseIndex] = { 
+      ...courses[courseIndex], 
+      ...progressData,
+      lastUpdated: new Date().toISOString()
+    };
+    return saveCourses(courses) ? courses[courseIndex] : null;
+  }
+  return null;
+};
+
+// Calculer le pourcentage de progression
+export const calculateProgress = (course) => {
+  const { readingProgress = 0, understood = false } = course;
+  const baseProgress = readingProgress;
+  const bonusProgress = understood ? 20 : 0;
+  return Math.min(baseProgress + bonusProgress, 100);
+};
