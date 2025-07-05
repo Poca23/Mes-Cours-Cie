@@ -1,5 +1,5 @@
 // src/components/CourseDetail.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getAllCourses, updateCourse, deleteCourse } from '../utils/storage';
 import { generateSingleCoursePDF } from '../utils/pdfExport';
@@ -12,6 +12,7 @@ const CourseDetail = () => {
   const [course, setCourse] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({});
+  const descriptionRef = useRef(null);
 
   useEffect(() => {
     const courses = getAllCourses();
@@ -26,10 +27,24 @@ const CourseDetail = () => {
 
   const handleEdit = () => {
     setIsEditing(true);
+    // Attendre que le DOM soit mis à jour
+    setTimeout(() => {
+      if (descriptionRef.current) {
+        descriptionRef.current.innerHTML = editForm.description || '';
+      }
+    }, 0);
   };
 
   const handleSave = () => {
-    const updatedCourse = updateCourse(parseInt(id), editForm);
+    // Récupérer le contenu HTML de l'éditeur
+    const descriptionContent = descriptionRef.current ? descriptionRef.current.innerHTML : editForm.description;
+    
+    const updatedForm = {
+      ...editForm,
+      description: descriptionContent
+    };
+
+    const updatedCourse = updateCourse(parseInt(id), updatedForm);
     if (updatedCourse) {
       setCourse(updatedCourse);
       setIsEditing(false);
@@ -64,6 +79,22 @@ const CourseDetail = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+  };
+
+  // Gérer la saisie dans l'éditeur de texte riche
+  const handleDescriptionInput = () => {
+    if (descriptionRef.current) {
+      setEditForm(prev => ({
+        ...prev,
+        description: descriptionRef.current.innerHTML
+      }));
+    }
+  };
+
+  // Formater le texte sélectionné
+  const formatText = (command) => {
+    document.execCommand(command, false, null);
+    descriptionRef.current.focus();
   };
 
   if (!course) {
@@ -127,13 +158,59 @@ const CourseDetail = () => {
 
               <div className="form-group">
                 <label>Description *</label>
-                <textarea
-                  name="description"
-                  value={editForm.description || ''}
-                  onChange={handleInputChange}
-                  placeholder="Description du cours"
-                  rows="20"
-                  className="description-textarea"
+                
+                {/* Barre d'outils de formatage */}
+                <div className="formatting-toolbar">
+                  <button
+                    type="button"
+                    onClick={() => formatText('bold')}
+                    className="format-btn"
+                    title="Gras"
+                  >
+                    <strong>B</strong>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => formatText('italic')}
+                    className="format-btn"
+                    title="Italique"
+                  >
+                    <em>I</em>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => formatText('underline')}
+                    className="format-btn"
+                    title="Souligné"
+                  >
+                    <u>U</u>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => formatText('insertUnorderedList')}
+                    className="format-btn"
+                    title="Liste à puces"
+                  >
+                    • Liste
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => formatText('insertOrderedList')}
+                    className="format-btn"
+                    title="Liste numérotée"
+                  >
+                    1. Liste
+                  </button>
+                </div>
+
+                {/* Éditeur de texte riche */}
+                <div
+                  ref={descriptionRef}
+                  contentEditable
+                  className="rich-text-editor"
+                  onInput={handleDescriptionInput}
+                  suppressContentEditableWarning={true}
+                  placeholder="Description du cours (vous pouvez coller du texte formaté)"
                 />
               </div>
 
@@ -179,9 +256,10 @@ const CourseDetail = () => {
 
               <div className="course-content">
                 <h3>📝 Description</h3>
-                <div className="course-description">
-                  {course.description}
-                </div>
+                <div 
+                  className="course-description"
+                  dangerouslySetInnerHTML={{ __html: course.description }}
+                />
               </div>
 
               <ProgressTracker 
