@@ -1,5 +1,5 @@
 // src/components/SearchBar.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './SearchBar.css';
 
 const SearchBar = ({ courses, onFilteredCourses }) => {
@@ -10,11 +10,8 @@ const SearchBar = ({ courses, onFilteredCourses }) => {
   // Extraire les matières uniques
   const uniqueSubjects = [...new Set(courses.map(course => course.subject))];
 
-  useEffect(() => {
-    filterCourses();
-  }, [searchTerm, selectedSubject, showFavoritesOnly, courses]);
-
-  const filterCourses = () => {
+  // Utiliser useCallback pour éviter les dépendances infinies
+  const filterCourses = useCallback(() => {
     let filtered = courses;
 
     // Filtrer par terme de recherche
@@ -37,7 +34,11 @@ const SearchBar = ({ courses, onFilteredCourses }) => {
     }
 
     onFilteredCourses(filtered);
-  };
+  }, [courses, searchTerm, selectedSubject, showFavoritesOnly, onFilteredCourses]);
+
+  useEffect(() => {
+    filterCourses();
+  }, [filterCourses]);
 
   const clearFilters = () => {
     setSearchTerm('');
