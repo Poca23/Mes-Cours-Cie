@@ -47,8 +47,12 @@
 }
 
 .courses-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 30px;
-  text-align: center;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .courses-header h2 {
@@ -57,6 +61,24 @@
   margin: 0;
 }
 
+.btn-add-course {
+  background: #48bb78;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.btn-add-course:hover {
+  background: #38a169;
+  transform: translateY(-2px);
+}
+
+/* 🎯 CORRECTION PRINCIPALE : Grille responsive */
 .courses-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -99,59 +121,108 @@
   color: white;
 }
 
-/* Responsive */
+/* =========================
+   RESPONSIVE DESIGN CORRIGÉ
+   ========================= */
+
+/* Tablette et petit desktop */
 @media (max-width: 768px) {
   .app-header h1 {
     font-size: 2rem;
   }
   
   .app-main {
-    padding: 20px 10px;
+    padding: 20px 15px;
   }
   
   .courses-container {
     padding: 20px;
+    border-radius: 12px;
   }
   
-  .courses-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.courses-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.btn-add-course {
-  background: #48bb78;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
-
-.btn-add-course:hover {
-  background: #38a169;
-  transform: translateY(-2px);
-}
-
-/* Responsive pour le header */
-@media (max-width: 768px) {
   .courses-header {
     flex-direction: column;
     text-align: center;
+    margin-bottom: 20px;
   }
   
   .btn-add-course {
     width: 100%;
+  }
+  
+  /* 🚨 CORRECTION : Grille une colonne */
+  .courses-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .app-header {
+    padding: 15px 10px;
+  }
+  
+  .app-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .app-subtitle {
+    font-size: 1rem;
+  }
+  
+  .app-main {
+    padding: 15px 8px;
+  }
+  
+  .courses-container {
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .courses-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .courses-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .empty-state {
+    padding: 40px 15px;
+  }
+  
+  .btn-add-course {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Très petit mobile */
+@media (max-width: 360px) {
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .app-main {
+    padding: 10px 5px;
+  }
+  
+  .courses-container {
+    padding: 10px;
+  }
+  
+  .courses-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .courses-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .empty-state {
+    padding: 30px 10px;
   }
 }
